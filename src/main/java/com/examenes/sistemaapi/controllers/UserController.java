@@ -12,13 +12,15 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/usuarios")
+@CrossOrigin("*")
 public class UserController {
     @Autowired
     private UsuarioService usuarioService;
 
     @PostMapping("/")
     public Usuario guardarUsuario(@RequestBody Usuario usuario) throws Exception {
-        Set<UsuarioRol> roles = new HashSet<>();
+        usuario.setPerfil("default.png");
+        Set<UsuarioRol> UsuariosRoles = new HashSet<>();
         Rol rol = new Rol();
         rol.setRolId(2L);
         rol.setNombre("NORMAL");
@@ -26,8 +28,8 @@ public class UserController {
         UsuarioRol usuarioRol = new UsuarioRol();
         usuarioRol.setUsuario(usuario);
         usuarioRol.setRol(rol);
-
-        return  usuarioService.guardarUsuario(usuario,roles);
+        UsuariosRoles.add(usuarioRol);
+        return  usuarioService.guardarUsuario(usuario,UsuariosRoles);
         
     }
     @GetMapping("/{username}")
